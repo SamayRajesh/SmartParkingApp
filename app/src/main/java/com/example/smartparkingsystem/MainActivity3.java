@@ -37,57 +37,70 @@ ImageView QR;
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
                     Log.e("firebase", "Error getting data", task.getException());
-                } else {
+                } else
+                {
                     Log.d("firebase1", String.valueOf(task.getResult().getValue()));
-                    TextView entry = findViewById(R.id.entrytime);
-                    entry.setText(String.valueOf(task.getResult().getValue()));
-                    myRef1.child(value1).child("Exit Time").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful()) {
-                                Log.e("firebase", "Error getting data", task.getException());
-                            }
-                            else {
-                                Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                                TextView exit=findViewById(R.id.exittime);
-                                TextView entry1=findViewById(R.id.entrytime);
-                                exit.setText(String.valueOf(task.getResult().getValue()));
-                                String start = convertHoursToMinutes(entry1.getText().toString());
-                                String end = convertHoursToMinutes(exit.getText().toString());
-                                int ends = Integer.parseInt(end);
-                                int starts = Integer.parseInt(start);
-                                int i_total_time = ends - starts;
-                                int i_total_time_h= i_total_time/60;
-                                int i_total_time_m= i_total_time%60;
-                                String final_string=String.format("Total time: %2d h %2d m",i_total_time_h,i_total_time_m);
-                                TextView time = findViewById(R.id.enteredplate);
-                                time.setText(final_string);
-                                int cost =0;
-                                if(i_total_time>=0&&i_total_time<60){
-                                    cost=30;
-                                } else if (i_total_time>=60&&i_total_time<120) {
-                                    cost=40;
-                                } else if (i_total_time>=120&&i_total_time<180) {
-                                    cost=60;
-                                } else if (i_total_time>=180&&i_total_time<360) {
-                                    cost=100;
-                                }
-                                else {
-                                    cost=100;
-                                    int loop_int=i_total_time-360;
-                                    loop_int=loop_int/60;
-                                    for(int i=1;i<=loop_int;i++){
-                                        cost=cost+50;
+                    if(String.valueOf(task.getResult().getValue())!="null") {
+                        TextView entry = findViewById(R.id.entrytime);
+                        entry.setText(String.valueOf(task.getResult().getValue()));
+                        myRef1.child(value1).child("Exit Time").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.e("firebase", "Error getting data", task.getException());
+                                } else {
+                                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                                    if (String.valueOf(task.getResult().getValue()) == "null") {
+                                        TextView appxcost = findViewById(R.id.Phoneno);
+                                        appxcost.setText("Error");
+                                        TextView time = findViewById(R.id.enteredplate);
+                                        time.setText("Error");
+
+                                    } else {
+                                        TextView exit = findViewById(R.id.exittime);
+                                        TextView entry1 = findViewById(R.id.entrytime);
+                                        exit.setText(String.valueOf(task.getResult().getValue()));
+                                        String start = convertHoursToMinutes(entry1.getText().toString());
+                                        String end = convertHoursToMinutes(exit.getText().toString());
+                                        int ends = Integer.parseInt(end);
+                                        int starts = Integer.parseInt(start);
+                                        int i_total_time = ends - starts;
+                                        int i_total_time_h = i_total_time / 60;
+                                        int i_total_time_m = i_total_time % 60;
+                                        String final_string = String.format("Total time: %2d h %2d m", i_total_time_h, i_total_time_m);
+                                        TextView time = findViewById(R.id.enteredplate);
+                                        time.setText(final_string);
+                                        int cost = 0;
+                                        if (i_total_time >= 0 && i_total_time < 60) {
+                                            cost = 30;
+                                        } else if (i_total_time >= 60 && i_total_time < 120) {
+                                            cost = 40;
+                                        } else if (i_total_time >= 120 && i_total_time < 180) {
+                                            cost = 60;
+                                        } else if (i_total_time >= 180 && i_total_time < 360) {
+                                            cost = 100;
+                                        } else {
+                                            cost = 100;
+                                            int loop_int = i_total_time - 360;
+                                            loop_int = loop_int / 60;
+                                            for (int i = 1; i <= loop_int; i++) {
+                                                cost = cost + 50;
+                                            }
+                                        }
+                                        TextView appxcost = findViewById(R.id.Phoneno);
+                                        String prefix = "Total Cost: ₹";
+                                        appxcost.setText(prefix.concat(String.valueOf(cost)));
                                     }
                                 }
-                                TextView appxcost=findViewById(R.id.Phoneno);
-                                String prefix="Total Cost: ₹";
-                                appxcost.setText(prefix.concat(String.valueOf(cost)));
-
                             }
-                        }
-                    });
-
+                        });
+                    }
+                    else{
+                        TextView appxcost = findViewById(R.id.Phoneno);
+                        appxcost.setText("Error");
+                        TextView time = findViewById(R.id.enteredplate);
+                        time.setText("Error");
+                    }
                 }
             }
         });
