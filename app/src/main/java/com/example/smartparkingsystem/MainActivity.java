@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Identification of buttons
         submit = findViewById(R.id.button);
-        status = findViewById(R.id.status);
 
         //Firebase instance and referencing
         inf = FirebaseDatabase.getInstance();
@@ -60,17 +59,24 @@ public class MainActivity extends AppCompatActivity {
                 myRef.child(L_plate.getText().toString()).child("Entry Time").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
+                        if (!task.isSuccessful())
+                        {
                             Log.e("firebase", "Error getting data", task.getException());
-                        } else {
+                        } else
+                        {
                             Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                            if (String.valueOf(task.getResult().getValue()) == "null") {
+                            if (String.valueOf(task.getResult().getValue()) == "null")
+                            {
                                 submit.setText("Invalid Details");
                                 submit.setBackgroundColor(getResources().getColor(R.color.red));
                                 myRef.child(L_plate.getText().toString()).removeValue();
-                            } else {
+                            } else
+                            {
                                 submit.setText("Submitted");
                                 submit.setBackgroundColor(getResources().getColor(R.color.green));
+                                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                                intent.putExtra("plate", L_plate.getText().toString());
+                                startActivity(intent);
                             }
 
 
@@ -79,34 +85,11 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
+
         });
-        /*
-         * Method that executes when "Status" button is pressed
-         */
-        status.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent that sends the user to next activity(MainActivity2)
-                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                intent.putExtra("plate", L_plate.getText().toString());
-                startActivityForResult(intent,0);
-            }
-        });
+
     }
 
 
-    @Override
-    /*
-     * Method that checks value of result returned by "MainActivity2" after 'finish()' command is run
-     */
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==0){
-            if(resultCode==RESULT_OK){
-                TextView log=findViewById(R.id.textView);
-                log.setText("LOGGED OUT!");
-            }
-        }
 
-    }
 }

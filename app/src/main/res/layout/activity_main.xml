@@ -27,11 +27,11 @@
                 android:id="@+id/logintext"
                 android:layout_width="match_parent"
                 android:layout_height="117dp"
+                android:autoSizeTextType="uniform"
                 android:fontFamily="@font/intsafont"
                 android:text="Login"
                 android:textAlignment="center"
                 android:textColor="@color/purple"
-                android:autoSizeTextType="uniform"
                 android:textStyle="bold" />
 
             <EditText
@@ -39,20 +39,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="60dp"
+                android:autoSizeMaxTextSize="100dp"
+                android:autoSizeMinTextSize="30dp"
+                android:autoSizeStepGranularity="2dp"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/custom_edittext"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="8dp"
-                android:textAllCaps="true"
                 android:fontFamily="@font/block"
                 android:hint="Licence plate"
                 android:imeOptions="actionDone"
                 android:padding="8dp"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="30dp"
-                android:autoSizeMaxTextSize="100dp"
-                android:autoSizeStepGranularity="2dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -60,6 +60,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
+                android:autoSizeMaxTextSize="100dp"
+                android:autoSizeMinTextSize="30dp"
+                android:autoSizeStepGranularity="2dp"
+                android:autoSizeTextType="uniform"
                 android:background="@drawable/custom_edittext"
                 android:drawableLeft="@drawable/baseline_local_phone_24"
                 android:drawablePadding="8dp"
@@ -70,10 +74,6 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="30dp"
-                android:autoSizeMaxTextSize="100dp"
-                android:autoSizeStepGranularity="2dp"
                 android:textStyle="bold" />
 
             <Button
@@ -81,66 +81,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="40dp"
+                android:autoSizeMaxTextSize="18sp"
+                android:autoSizeMinTextSize="10sp"
+                android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
                 android:backgroundTint="@color/purple"
                 android:text="Submit"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="10sp"
-                android:autoSizeMaxTextSize="18sp"
-                android:autoSizeStepGranularity="1sp"
                 app:cornerRadius="20dp" />
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/status_check"
-                    android:layout_width="194dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_weight="50"
-                    android:gravity="center"
-                    android:text="check the status here!"
-                    android:textColor="@color/purple"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="12sp"
-                    android:autoSizeMaxTextSize="18sp"
-                    android:autoSizeStepGranularity="1sp"/>
-
-                <Button
-                    android:id="@+id/status"
-                    style="?android:buttonBarButtonStyle"
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginLeft="0dp"
-                    android:gravity="center"
-                    android:text="status"
-                    android:textAllCaps="false"
-                    android:textColor="@color/purple_700"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="13sp"
-                    android:autoSizeMaxTextSize="18sp"
-                    android:autoSizeStepGranularity="1sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="100dp"
-                android:textStyle="italic"
-                android:autoSizeTextType="uniform"
-                android:autoSizeMinTextSize="10sp"
+                android:layout_marginTop="20dp"
                 android:autoSizeMaxTextSize="20sp"
+                android:autoSizeMinTextSize="10sp"
                 android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
+                android:text=""
                 android:textColor="@color/purple_700"
-                android:text="" />
+                android:textStyle="italic" />
 
         </LinearLayout>
 

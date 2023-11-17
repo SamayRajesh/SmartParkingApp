@@ -55,6 +55,9 @@ ImageView QR;
                                         appxcost.setText("Error");
                                         TextView time = findViewById(R.id.enteredplate);
                                         time.setText("Error");
+                                        Intent intent = new Intent(MainActivity3.this,Error_page.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(intent);
 
                                     } else {
                                         TextView exit = findViewById(R.id.exittime);

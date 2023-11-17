@@ -5,8 +5,10 @@ import static com.example.smartparkingsystem.Help.convertHoursToMinutes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,10 +25,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity2 extends AppCompatActivity {
-    FirebaseDatabase inf;
+    FirebaseDatabase inf1;
     DatabaseReference myRef1;
 
-
+    ImageView map;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,65 +40,61 @@ public class MainActivity2 extends AppCompatActivity {
         String lp="Plate: ";
         String b=lp.concat(value1);
         plate.setText(b);
-
-       inf = FirebaseDatabase.getInstance();
-        myRef1 = inf.getReference("Users");
-        //Entry time pull
-        myRef1.child(value1).child("Entry Time").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        final boolean[] A1free = new boolean[1];
+        inf1 = FirebaseDatabase.getInstance();
+        myRef1 = inf1.getReference("Lot_1");
+        map=findViewById(R.id.imageView);
+        myRef1.child("A1").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
-                   if (!task.isSuccessful()) {
-                       Log.e("firebase", "Error getting data", task.getException());
-                   } else {
-                       Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                       if(String.valueOf(task.getResult().getValue())=="null"){
-                           TextView time = findViewById(R.id.approx_time);
-                           time.setText("Error");
-                           TextView approx_cost_text=findViewById(R.id.capproxcost);
-                           approx_cost_text.setText("Error");
+                if (!task.isSuccessful())
+                {
+                    Log.e("firebase", "Error getting data", task.getException());
+                } else
+                {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    if (String.valueOf(task.getResult().getValue()) == "false")
+                    {
+                       TextView plot=findViewById(R.id.plot);
+                       String pl="Plot: ";
+                       String p=pl.concat("B1");
+                       TextView plotv=findViewById(R.id.plot);
+                       plotv.setText(p);
 
-                       }
-                       else {
-                           TextView entry = findViewById(R.id.entry_temp);
-                           entry.setText(String.valueOf(task.getResult().getValue()));
-                           Date currentTime = Calendar.getInstance().getTime();
-                           String start = convertHoursToMinutes(entry.getText().toString());
-                           String end = convertHoursToMinutes(String.valueOf(currentTime).substring(11, 20));
-                           int current_time = Integer.parseInt(end);
-                           int start_time = Integer.parseInt(start);
-                           int i_approx_time = current_time - start_time;
-                           int i_approx_time_h = i_approx_time / 60;
-                           int i_approx_time_m = i_approx_time % 60;
-                           String final_string = String.format("Time Spent: %2d h %2d m", i_approx_time_h, i_approx_time_m);
-                           TextView time = findViewById(R.id.approx_time);
-                           time.setText(final_string);
-                           int cost = 0;
-                           if (i_approx_time >= 0 && i_approx_time < 60) {
-                               cost = 30;
-                           } else if (i_approx_time >= 60 && i_approx_time < 120) {
-                               cost = 40;
-                           } else if (i_approx_time >= 120 && i_approx_time < 180) {
-                               cost = 60;
-                           } else if (i_approx_time >= 180 && i_approx_time < 360) {
-                               cost = 100;
-                           } else {
-                               cost = 100;
-                               int loop_int = i_approx_time - 360;
-                               loop_int = loop_int / 60;
-                               for (int i = 1; i <= loop_int; i++) {
-                                   cost = cost + 50;
-                               }
-                           }
-                           TextView approx_cost_text = findViewById(R.id.capproxcost);
-                           String prefix = "Approx. Cost: ₹";
-                           approx_cost_text.setText(prefix.concat(String.valueOf(cost)));
+                       A1free[0] =false;
+                        System.out.println(A1free[0]+"in b1");
 
-                       }
-                   }
+
+
+                    } else
+                    {
+                        TextView plot=findViewById(R.id.plot);
+                        String pl="Plot: ";
+                        String p=pl.concat("A1");
+                        TextView plotv=findViewById(R.id.plot);
+                        plotv.setText(p);
+                        A1free[0]=true;
+                        System.out.println(A1free[0]+"in a1");
+
+                    }
+
+
+                }
             }
         });
-
-
+        System.out.println(A1free[0]+"out");
+    map.setOnTouchListener(new View.OnTouchListener() {
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+       if(A1free[0]){
+           map.setImageResource(R.drawable.a1);
+       }
+       else {
+           map.setImageResource(R.drawable.b1);
+       }
+        return false;
+    }
+});
 
 
         //back button
@@ -118,21 +116,12 @@ public class MainActivity2 extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity2.this,MainActivity3.class);
                 intent.putExtra("plate1", value1);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(intent,1);
+                startActivity(intent);
             }
         });
 
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        }
-    }
+
 }
 
 
